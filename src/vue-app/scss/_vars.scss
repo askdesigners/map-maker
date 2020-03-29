@@ -1,0 +1,54 @@
+// 1rem = 15px
+
+// Spacing
+$u1: 0.333rem;
+$u2: $u1 * 2; // .666rem
+$u3: $u1 * 3; // 1rem
+$u4: $u1 * 4; // 1.333rem
+$u5: $u1 * 5; // 1.665rem
+$u6: $u1 * 6; // 2rem
+$u10: $u1 * 10; // 2rem
+
+// 6 col grid
+$col: 16.666666667%;
+
+$appwidthlarge: 680px;
+$appwidthmid: 450px;
+
+// Colors
+$dkblue: #131534;
+$midblue: #414acc;
+$ltblue: #b4c8ff;
+$gold: #956328;
+$orange: #e46f37;
+$warn: rgb(228, 55, 55);
+$warnSoft: $orange;
+$brownorange: #b26039;
+$green: #006945;
+$palegreen: #dcffe2;
+$midgrey: #5c534e;
+$ltmidgrey: #b6b6b6;
+$ltgrey: #ececec;
+$overlay: #f4f4f4;
+$superlight: #fafafa;
+$palegreen: #dcffe2;
+
+// Backgrounds
+$gradWhiteLtblue: linear-gradient(-138deg, #fff 0%, #f2f3ff 100%);
+$gradWhiteMidblue: linear-gradient(
+    -138deg,
+    rgb(241, 243, 245) 0%,
+    rgb(236, 237, 247) 100%
+);
+$gradMidblueGrey: linear-gradient(
+    -138deg,
+    rgb(211, 211, 212) 0%,
+    rgb(166, 167, 177) 100%
+);
+$gradWhiteLtgrey: linear-gradient(-144deg, #fff 0%, #e6e6e6 100%);
+
+// Shadows
+$shadowTiny: 1px 1px 2px 0 rgba(19, 21, 52, 0.6);
+$shadowSmall: 1px 1px 4px 0 rgba(19, 21, 52, 0.3);
+$shadowMiddle: 3px 3px 6px 0 rgba(#000, 0.25);
+$shadowLarge: 3px 3px 9px 0 rgba(#000, 0.15);

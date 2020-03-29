@@ -1,0 +1,432 @@
+#app {
+    .pointer {
+        * {
+            cursor: pointer;
+        }
+        cursor: pointer;
+    }
+
+    .asBlock {
+        display: block;
+    }
+
+    // Padding
+
+    .padTop1 {
+        padding-top: $u1;
+    }
+
+    .padTop2 {
+        padding-top: $u2;
+    }
+
+    .padTop3 {
+        padding-top: $u3;
+    }
+
+    .padTop4 {
+        padding-top: $u4;
+    }
+
+    .padTop5 {
+        padding-top: $u5;
+    }
+
+    .padTop6 {
+        padding-top: $u6;
+    }
+
+    .padRight1 {
+        padding-right: $u1;
+    }
+
+    .padRight2 {
+        padding-right: $u2;
+    }
+
+    .padRight3 {
+        padding-right: $u3;
+    }
+
+    .padRight4 {
+        padding-right: $u4;
+    }
+
+    .padRight5 {
+        padding-right: $u5;
+    }
+
+    .padRight6 {
+        padding-right: $u6;
+    }
+
+    .padBottom0 {
+        padding-bottom: 0;
+    }
+
+    .padBottom1 {
+        padding-bottom: $u1;
+    }
+
+    .padBottom2 {
+        padding-bottom: $u2;
+    }
+
+    .padBottom3 {
+        padding-bottom: $u3;
+    }
+
+    .padBottom4 {
+        padding-bottom: $u4;
+    }
+
+    .padBottom5 {
+        padding-bottom: $u5;
+    }
+
+    .padBottom6 {
+        padding-bottom: $u6;
+    }
+
+    .padLeft1 {
+        padding-left: $u1;
+    }
+
+    .padLeft2 {
+        padding-left: $u2;
+    }
+
+    .padLeft3 {
+        padding-left: $u3;
+    }
+
+    .padLeft4 {
+        padding-left: $u4;
+    }
+
+    .padLeft5 {
+        padding-left: $u5;
+    }
+
+    .padLeft6 {
+        padding-left: $u6;
+    }
+
+    // Margins
+
+    .marginTop1 {
+        margin-top: $u1;
+    }
+
+    .marginTop2 {
+        margin-top: $u2;
+    }
+
+    .marginTop3 {
+        margin-top: $u3;
+    }
+
+    .marginTop4 {
+        margin-top: $u4;
+    }
+
+    .marginTop5 {
+        margin-top: $u5;
+    }
+
+    .marginTop6 {
+        margin-top: $u6;
+    }
+
+    .marginTop10 {
+        margin-top: $u10;
+    }
+
+    .marginRight1 {
+        margin-right: $u1;
+    }
+
+    .marginRight2 {
+        margin-right: $u2;
+    }
+
+    .marginRight3 {
+        margin-right: $u3;
+    }
+
+    .marginRight4 {
+        margin-right: $u4;
+    }
+
+    .marginRight5 {
+        margin-right: $u5;
+    }
+
+    .marginRight6 {
+        margin-right: $u6;
+    }
+
+    .marginBottom1 {
+        margin-bottom: $u1;
+    }
+
+    .marginBottom2 {
+        margin-bottom: $u2;
+    }
+
+    .marginBottom3 {
+        margin-bottom: $u3;
+    }
+
+    .marginBottom4 {
+        margin-bottom: $u4;
+    }
+
+    .marginBottom5 {
+        margin-bottom: $u5;
+    }
+
+    .marginBottom6 {
+        margin-bottom: $u6;
+    }
+
+    .marginLeft1 {
+        margin-left: $u1;
+    }
+
+    .marginLeft2 {
+        margin-left: $u2;
+    }
+
+    .marginLeft3 {
+        margin-left: $u3;
+    }
+
+    .marginLeft4 {
+        margin-left: $u4;
+    }
+
+    .marginLeft5 {
+        margin-left: $u5;
+    }
+
+    .marginLeft6 {
+        margin-left: $u6;
+    }
+
+    .padTop0 {
+        padding-top: 0;
+    }
+
+    .centerMargin {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    // Display
+
+    .pRelative {
+        position: relative;
+    }
+
+    .pAbsolute {
+        position: absolute;
+    }
+
+    .flex {
+        display: flex;
+
+        &__whenSmall {
+            justify-content: space-between;
+        }
+    }
+}
+
+.flexRow {
+    align-content: center;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.flexCol {
+    align-content: center;
+    flex-direction: column;
+}
+
+.flexJCStart {
+    justify-content: flex-start;
+}
+
+.flexJCCenter {
+    justify-content: center;
+}
+
+.flexJCEnd {
+    justify-content: flex-end;
+}
+
+.flexJCAround {
+    justify-content: space-around;
+}
+
+.flexJCBetween {
+    justify-content: space-between;
+}
+
+.flexAICenter {
+    align-items: center;
+}
+
+.flexAIEnd {
+    align-items: flex-end;
+}
+
+.flexAIStart {
+    align-items: flex-start;
+}
+
+.flexGrow0 {
+    flex-grow: 0;
+}
+
+.flexGrow1 {
+    flex-grow: 1;
+}
+
+.flexGrow2 {
+    flex-grow: 2;
+}
+
+.flexASCenter {
+    align-self: center;
+}
+
+.flexASStart {
+    align-self: flex-start;
+}
+
+.flexASEnd {
+    align-self: flex-end;
+}
+
+.flexEndSelf {
+    margin-left: auto;
+}
+
+.flexBottomSelf {
+    margin-top: auto;
+}
+
+.flexWrap {
+    flex-wrap: wrap;
+}
+
+.flexOrder0 {
+    order: 0;
+}
+
+.flexOrder1 {
+    order: 1;
+}
+
+.flexOrder2 {
+    order: 2;
+}
+
+.floatRight {
+    float: right;
+}
+
+.floatLeft {
+    float: left;
+}
+
+.z1 {
+    z-index: 100;
+}
+
+.z2 {
+    z-index: 200;
+}
+
+.z10 {
+    z-index: 3000;
+}
+// % Cols
+
+.col {
+    &__1 {
+        width: $col;
+    }
+
+    &__2 {
+        width: 2 * $col;
+    }
+
+    &__3 {
+        width: 3 * $col;
+    }
+
+    &__4 {
+        width: 4 * $col;
+    }
+
+    &__5 {
+        width: 5 * $col;
+    }
+
+    &__6 {
+        width: 6 * $col;
+    }
+}
+
+.appWidth {
+    padding-left: $u3;
+    padding-right: $u3;
+    width: 100%;
+}
+
+.maxWidth680 {
+    max-width: $appwidthlarge;
+}
+
+.maxWidthMid {
+    max-width: $appwidthmid;
+}
+
+.fullWidth {
+    width: 100%;
+}
+
+.hidden {
+    display: none;
+
+    .visible {
+        display: inherit;
+    }
+
+    .objectFit {
+        &__cover {
+            object-fit: cover;
+            width: 100%;
+        }
+    }
+
+    .background {
+        &White {
+            background: white;
+        }
+
+        &LtGrey {
+            background: $ltgrey;
+        }
+
+        &LtMidGrey {
+            background: $ltmidgrey;
+        }
+    }
+}
+
+.rounded {
+    border-radius: 5px;
+}
