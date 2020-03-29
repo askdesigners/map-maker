@@ -50,6 +50,7 @@
 	},
 	"homepage": "https://github.com/oliverfindl/electron-vue-boilerplate#readme",
 	"dependencies": {
+		"jsonfile": "^6.0.1",
 		"vue": "^2.6.11"
 	},
 	"devDependencies": {
