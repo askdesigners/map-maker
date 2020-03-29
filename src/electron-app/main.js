@@ -5,12 +5,13 @@ import { app, BrowserWindow, ipcMain } from "electron";
 import { resolve } from "path";
 import { format } from "url";
 
-import dataFile from "../../mapData/mapStore.json";
 import mapActions from "./mapActions";
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let mainWindow, mapActionsInstance;
+let mainWindow;
+
+const mapActionsInstance = new mapActions(ipcMain, "../../mapData/mapStore.json");
 
 function createWindow() {
     // Create the browser window.
@@ -64,7 +65,6 @@ function createWindow() {
 // Some APIs can only be used after this event occurs.
 app.on("ready", () => {
     createWindow();
-    mapActionsInstance = new mapActions(ipcMain, dataFile);
 });
 
 // Quit when all windows are closed.

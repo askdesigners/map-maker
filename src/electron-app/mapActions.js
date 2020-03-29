@@ -2,29 +2,22 @@ import jsonfile from "jsonfile";
 import path from "path";
 
 export default class MapManager {
-    constructor(ipcMain, jsonMapFile) {
+    constructor(ipcMain, jsonMapPath) {
+        console.log("inti1!!", this, ipcMain);
         this.ipcBus = ipcMain;
-        this.mapFile = jsonMapFile;
-        ipcMain.on("getmap", this.getMap);
-        ipcMain.on("updatemap", this.updateMap);
+        this.mapFilePath = jsonMapPath;
+        ipcMain.on("getmap", this.getMap.bind(this));
+        ipcMain.on("updatemap", this.updateMap.bind(this));
     }
 
     getMap(event, dimensions) {
-        console.log("getting map");
-        event.sender.send(
-            "getmap-reply",
-            this.formatForApp(
-                this.buildEmptyMap(dimensions),
-                jsonfile.readFileSync(path.join(__dirname, this.mapFile)).map
-            )
-        );
+        console.log("getting map", this);
+        let emptyMap = this.buildEmptyMap(dimensions);
+        event.sender.send("getmap-reply", this.formatForApp(emptyMap, jsonfile.readFileSync(path.join(__dirname, this.mapFilePath)).map));
     }
 
     updateMap(event, newMapData) {
-        let err = jsonfile.writeFileSync(
-            path.join(__dirname, this.mapFile),
-            this.formatForSave(newMapData)
-        );
+        let err = jsonfile.writeFileSync(path.join(__dirname, this.mapFile), this.formatForSave(newMapData));
         console.error("Saved file", err);
     }
 
@@ -54,11 +47,7 @@ export default class MapManager {
     }
 
     formatForApp(emptyMap, data) {
-        console.log(
-            "formatting map data",
-            Object.keys(emptyMap).length,
-            data.length
-        );
+        console.log("formatting map data", Object.keys(emptyMap).length, data.length);
         return data.reduce((m, place) => {
             let key = place.x + "-" + place.y;
             m[key] = {
@@ -82,12 +71,7 @@ export default class MapManager {
         return {
             map: keys.reduce((acc, k) => {
                 let xy = k.split("-");
-                let blocks = [
-                    newMapData[k].w ? "w" : null,
-                    newMapData[k].e ? "e" : null,
-                    newMapData[k].n ? "n" : null,
-                    newMapData[k].s ? "s" : null
-                ].filter(e => e);
+                let blocks = [newMapData[k].w ? "w" : null, newMapData[k].e ? "e" : null, newMapData[k].n ? "n" : null, newMapData[k].s ? "s" : null].filter(e => e);
                 let tPlace = {
                     x: xy[0],
                     y: xy[1],

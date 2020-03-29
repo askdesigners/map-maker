@@ -1,7 +1,9 @@
 import { ipcRenderer } from "electron";
 
 export default class DatalayerService {
-    constructor() {
+    constructor(changedKeyHandler, mapReadyhandler) {
+        this.mapReadyhandler = mapReadyhandler;
+        this.changedKeyHandler = changedKeyHandler;
         this.dimensions = [66, 50];
         this.selectedCell = "";
         this.keyMap = {};
@@ -18,12 +20,6 @@ export default class DatalayerService {
         ipcRenderer.send("getmap", this.dimensions);
     }
 
-    updateSelection(key) {
-        console.log("update selection in service");
-        this.selectedCell = key;
-        this.emit("selectionChange", this.selectedCell);
-    }
-
     saveMap() {
         ipcRenderer.send("updatemap", this.keyMap);
     }
@@ -31,18 +27,14 @@ export default class DatalayerService {
     saveCell(key, data) {
         console.log("save selection in service:", key, data);
         this.keyMap[key] = Object.assign(this.keyMap[key], data);
-        this.emit("changedKey", { key, data: this.keyMap[key] });
+        this.changedKeyHandler({ key, data: this.keyMap[key] });
         this.saveMap();
     }
 
     updatedBlocked(key, dir) {
         this.keyMap[key][dir] = !this.keyMap[key][dir];
-        this.emit("changedKey", { key, data: this.keyMap[key] });
+        this.changedKeyHandler({ key, data: this.keyMap[key] });
         this.saveMap();
-    }
-
-    getDimensions() {
-        return this.dimensions;
     }
 
     buildOrFetchKeyMap(mapData) {
@@ -51,7 +43,7 @@ export default class DatalayerService {
     }
 
     buildArrays(mapData) {
-        console.log("building arrays");
+        console.log("building arrays", mapData);
         let rows = Array.apply(null, {
             length: this.dimensions[1]
         }).map(() => []);
@@ -66,7 +58,6 @@ export default class DatalayerService {
                 return cell;
             });
         });
-
-        this.emit("mapReady", this.arrayMap);
+        this.mapReadyhandler(this.arrayMap);
     }
 }

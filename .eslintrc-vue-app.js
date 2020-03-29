@@ -20,6 +20,7 @@ module.exports = {
         "no-console": process.env.NODE_ENV === "production" ? "error" : "off",
         "no-debugger": process.env.NODE_ENV === "production" ? "error" : "off",
         quotes: ["error", "double"],
-        semi: ["error", "always"]
+        semi: ["error", "always"],
+        "no-unused-vars": ["warn", { vars: "all", args: "after-used", ignoreRestSiblings: false }]
     }
 };
