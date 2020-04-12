@@ -62,7 +62,7 @@ export class DescriptionsViewComponent implements OnInit {
 
   setBlockedDirection(dir) {
     this._ngZone.run(() => {
-      this.datalayer.updatedBlocked(this.datalayer.selectedCell, dir);
+      this.datalayer.updateBlocked(this.datalayer.selectedCell, dir);
     });
   }
 

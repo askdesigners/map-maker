@@ -1,6 +1,6 @@
 <template lang="html">
     <span class="Map__CellInner" :class="{ tiny: isTiny, blockToN: cellData.n, blockToS: cellData.s, blockToE: cellData.e, blockToW: cellData.w, cellSelected: selected }" @click="select()">
-        <div>
+        <div class="Indicator__Outer">
             <span class="Indicator Indicator__Name" v-if="cellData.name != ''"></span>
             <span class="Indicator Indicator__DescriptiveName" v-if="cellData.descriptiveName != ''"></span>
             <span class="Indicator Indicator__Description" v-if="cellData.description != ''"></span>
@@ -15,13 +15,13 @@
 
 export default {
     name: "MapCell",
-    mounted() {},
+    mounted() {
+    },
     props: ["cellData"],
     data: () => ({}),
     computed: {
         selected() {
-            // test if is the same cell
-            return this.$store.state.selectedCell;
+            return this.$store.state.selectedCell.key === this.cellData.key;
         },
         isTiny() {
             return this.$store.state.isTiny;
@@ -29,8 +29,14 @@ export default {
     },
     methods: {
         select() {
-            console.log(this.cellData);
-            this.$store.dispatch("updateSelection", this.cellData.key);
+            this.$store.dispatch("updateSelection", this.cellData);
+        }
+    },
+    watch:{
+        selected(newVal, oldVal){
+            if(newVal && !oldVal){
+                this.select();
+            }
         }
     }
 };
@@ -41,26 +47,45 @@ export default {
 
 .Map__CellInner {
     display: block;
-    width: 20px;
-    height: 20px;
-    font-size: 0.5rem;
-    line-height: 0.5rem;
+    width: 30px;
+    height: 30px;
+    font-size: 0.8rem;
+    line-height: 0.8rem;
     text-align: center;
     white-space: nowrap;
     overflow: hidden;
     cursor: pointer;
 
-    .Map__CellInner {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
+    &:hover{
+        background: $palegreen;
+    }
+
+    *{
+        cursor: pointer;
+    }
+
+    &.cellSelected{
+        background: $ltblue;
+    }
+
+    &.blockToN{
+        border-top: 1px solid $dkblue;
+    }
+    &.blockToS{
+        border-bottom: 1px solid $dkblue;
+    }
+    &.blockToE{
+        border-right: 1px solid $dkblue;
+    }
+    &.blockToW{
+        border-left: 1px solid $dkblue;
     }
 }
 
 .tiny {
-    width: 10px;
-    height: 10px;
-    font-size: 0.2rem;
+    width: 18px;
+    height: 18px;
+    font-size: 0.4rem;
     line-height: 10px;
 
     .Key {
@@ -73,6 +98,10 @@ export default {
     }
 }
 
+.Indicator__Outer{
+    height: 10px;
+}
+
 .Indicator {
     height: 4px;
     width: 4px;
@@ -81,7 +110,7 @@ export default {
 }
 
 .Indicator__Description {
-    background: $ltblue;
+    background: $green;
 }
 
 .Indicator__Name {

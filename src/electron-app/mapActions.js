@@ -17,7 +17,7 @@ export default class MapManager {
     }
 
     updateMap(event, newMapData) {
-        let err = jsonfile.writeFileSync(path.join(__dirname, this.mapFile), this.formatForSave(newMapData));
+        let err = jsonfile.writeFileSync(path.join(__dirname, this.mapFilePath), this.formatForSave(newMapData));
         console.error("Saved file", err);
     }
 

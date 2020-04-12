@@ -23,7 +23,7 @@ module.exports = {
 		historyApiFallback: true,
 		overlay: {
 			errors: true,
-			warnings: true
+			warnings: false
 		}
 	},
 	performance: {
@@ -38,9 +38,9 @@ module.exports = {
 			options: {
 				configFile: resolve(__dirname, ".eslintrc-vue-app.js"),
 				emitError: true,
-				emitWarning: true,
+				emitWarning: false,
 				failOnError: true,
-				failOnWarning: true
+				failOnWarning: false
 			}
 		}, {
 			test: /\.vue$/i,

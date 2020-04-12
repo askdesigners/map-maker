@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:500&display=swap");
 
 html {
     color: $dkblue;
@@ -10,176 +11,179 @@ html {
     font-family: "Open Sans Condensed", sans-serif;
 }
 
-#app {
-    hanging-punctuation: first;
+b,
+strong {
+    font-weight: 500;
+}
 
-    b,
-    strong {
+.Input{
+    font-size: 1rem;
+    padding: 5px;
+    font-family: "Open Sans", sans-serif;
+}
+
+.T {
+    &__italic {
+        font-style: italic;
+    }
+
+    &__s0 {
+        // 60 px
+        font-size: 5rem;
+        line-height: 5rem;
+    }
+
+    &__s05 {
+        // 60 px
+        font-size: 4rem;
+        line-height: 4rem;
+    }
+
+    &__s075 {
+        // 60 px
+        font-size: 3rem;
+        line-height: 3rem;
+    }
+
+    &__s1 {
+        // 24 px
+        font-size: 2rem;
+        line-height: 2.5rem;
+    }
+
+    &__s15 {
+        // 24 px
+        font-size: 1.8rem;
+        line-height: 2.3rem;
+    }
+
+    &__s2 {
+        // 16 px
+        font-size: 1.333rem;
+        line-height: 2rem;
+    }
+
+    &__s3 {
+        // 12 px
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+
+    &__s4 {
+        // 12 px
+        font-size: 0.8rem;
+        line-height: 2rem;
+    }
+
+    // weights
+    &__w1 {
+        font-weight: 300;
+    }
+
+    &__w2 {
         font-weight: 500;
     }
-    .T {
-        &__italic {
-            font-style: italic;
-        }
 
-        &__s0 {
-            // 60 px
-            font-size: 5rem;
-            line-height: 5rem;
-        }
+    // alignment
+    &__aRight {
+        text-align: right;
+    }
 
-        &__s05 {
-            // 60 px
-            font-size: 4rem;
-            line-height: 4rem;
-        }
+    &__aLeft {
+        text-align: left;
+    }
 
-        &__s075 {
-            // 60 px
-            font-size: 3rem;
-            line-height: 3rem;
-        }
+    &__aCenter {
+        text-align: center;
+    }
 
-        &__s1 {
-            // 24 px
-            font-size: 2rem;
-            line-height: 2.5rem;
-        }
+    &__cBlue {
+        color: $midblue;
 
-        &__s15 {
-            // 24 px
-            font-size: 1.8rem;
-            line-height: 2.3rem;
-        }
-
-        &__s2 {
-            // 16 px
-            font-size: 1.333rem;
-            line-height: 2rem;
-        }
-
-        &__s3 {
-            // 12 px
-            font-size: 1rem;
-            line-height: 1.5rem;
-        }
-
-        &__s4 {
-            // 12 px
-            font-size: 0.8rem;
-            line-height: 2rem;
-        }
-
-        // weights
-        &__w1 {
-            font-weight: 300;
-        }
-
-        &__w2 {
-            font-weight: 500;
-        }
-
-        // alignment
-        &__aRight {
-            text-align: right;
-        }
-
-        &__aLeft {
-            text-align: left;
-        }
-
-        &__aCenter {
-            text-align: center;
-        }
-
-        &__cBlue {
+        a {
             color: $midblue;
-
-            a {
-                color: $midblue;
-            }
         }
+    }
 
-        &__cGold {
+    &__cGold {
+        color: $gold;
+
+        a {
             color: $gold;
-
-            a {
-                color: $gold;
-            }
         }
+    }
 
-        &__cDkblue {
+    &__cDkblue {
+        color: $dkblue;
+
+        a {
             color: $dkblue;
-
-            a {
-                color: $dkblue;
-            }
         }
+    }
 
-        &__cOrange {
+    &__cOrange {
+        color: $orange;
+
+        a {
             color: $orange;
-
-            a {
-                color: $orange;
-            }
         }
+    }
 
-        &__cWarn {
+    &__cWarn {
+        color: $warn;
+
+        a {
             color: $warn;
-
-            a {
-                color: $warn;
-            }
         }
+    }
 
-        &__cGreen {
+    &__cGreen {
+        color: $green;
+
+        a {
             color: $green;
-
-            a {
-                color: $green;
-            }
         }
+    }
 
-        &__cMidgrey {
+    &__cMidgrey {
+        color: $midgrey;
+
+        a {
             color: $midgrey;
-
-            a {
-                color: $midgrey;
-            }
-        }
-
-        &__cWhite {
-            color: white;
-        }
-
-        &__caps {
-            text-transform: uppercase;
         }
     }
 
-    .Link {
+    &__cWhite {
+        color: white;
+    }
+
+    &__caps {
+        text-transform: uppercase;
+    }
+}
+
+.Link {
+    cursor: pointer;
+
+    * {
         cursor: pointer;
-
-        * {
-            cursor: pointer;
-        }
-
-        &__underline {
-            text-decoration: underline;
-        }
-
-        &.isDisabled {
-            opacity: 0.5;
-        }
     }
 
-    .noOverflow {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+    &__underline {
+        text-decoration: underline;
     }
 
-    .noWrap {
-        white-space: nowrap;
+    &.isDisabled {
+        opacity: 0.5;
     }
+}
+
+.noOverflow {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.noWrap {
+    white-space: nowrap;
 }

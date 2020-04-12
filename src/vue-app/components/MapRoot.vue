@@ -1,5 +1,5 @@
 <template lang="html">
-    <div>
+    <div v-on:keyup.up="handleKeyboardEvents">
         <nav class="Nav Nav__Main">
             <input type="checkbox" class="Input Input__Checkbox " v-model="isTiny" />
             Tiny
@@ -16,25 +16,30 @@
                     </tbody>
                 </table>
             </section>
-            <section class="Map__DescriptionEditor padSides15 padTopBottom15">
-                {{ selectedCell }}
-                <h1 class="Text__bold marginBottom15 padBottom15">Cell: {{ selectedObject.key }}</h1>
-                <div class="">
-                    <p>Name</p>
-                    <input type="text" class="Input Input__text" v-model="selectedObject.name" placeholder="Name" />
+            <section class="Map__DescriptionEditor padTop3 padBottom3 padLeft5 padRight5">
+                <div class="col__1">
+                    <p class="T__s1">
+                        {{ selectedCell.key }}
+                    </p>
                 </div>
-                <div class="">
-                    <p>Desc. Name</p>
-                    <input type="text" class="Input Input__text" v-model="selectedObject.descriptiveName" placeholder="Descriptive name" />
+                <div class="col__2 padLeft1 padRight1">
+                    <div class="marginBottom2">
+                        <p>Name</p>
+                        <input type="text" class="Input Input__text fullWidth" v-model="selectedObject.name" placeholder="Name" />
+                    </div>
+                    <div class="">
+                        <p>Desc. Name</p>
+                        <input type="text" class="Input Input__text fullWidth" v-model="selectedObject.descriptiveName" placeholder="Descriptive name" />
+                    </div>
                 </div>
-                <div class="">
+                <div class="col__2 padLeft1 padRight1">
                     <p>Description</p>
-                    <textarea id="" cols="30" rows="10" class="Input Input__textarea" v-model="selectedObject.description">
+                    <textarea id="" cols="30" rows="6" class="Input Input__textarea fullWidth" v-model="selectedObject.description">
                         Location Description
                     </textarea>
                 </div>
-                <div class="FormRow">
-                    <a class="Button Button__Primary" @click="updateCell()">Update</a>
+                <div class="col_1 padLeft1">
+                    <button class="Button Button__Primary" @click="updateCell()">Update</button>
                 </div>
             </section>
         </section>
@@ -52,10 +57,16 @@ export default {
     },
     mounted() {
         this.$store.dispatch("initMap");
+        window.addEventListener("keydown", this.handleKeyboardEvents);
     },
     data: () => ({
         selectedObject: {}
     }),
+    watch:{
+        selectedCell(newcell){
+            this.selectedObject = {...newcell};
+        }
+    },
     computed: {
         rows() {
             return this.$store.state.mapRows;
@@ -74,32 +85,25 @@ export default {
     },
     methods: {
         updateCell() {
-            this.$store.dispatch("saveCell", { cell: this.datalayer.selectedCell, data: this.selectedObject });
+            this.$store.dispatch("saveCell", { key: this.selectedCell.key, data: this.selectedObject });
         },
 
-        // setSelectedObjectData(key) { // to store
-        //     this._ngZone.run(() => {
-        //         this.selectedObject = Object.assign({}, this.datalayer.keyMap[key]);
-        //     });
-        // },
-
         moveSelection(x, y) {
-            if (this.selectedCell == undefined) this.selectedCell = "1-1";
-            let pos = this.selectedCell.split("-");
+            if (this.selectedCell === undefined) this.selectedCell = {key: "1-1"};
+            let pos = this.selectedCell.key.split("-");
             pos[0] = parseInt(pos[0], 10) + x;
             pos[1] = parseInt(pos[1], 10) + y;
-            this.$store.dispatch("updateSelection", pos.join("-"));
+            this.$store.dispatch("updateSelection", {key: pos.join("-")});
         },
 
         setBlockedDirection(dir) {
-            this.$store.dispatch("updatedBlocked", this.selectedCell, dir);
+            this.$store.dispatch("updateBlocked", {key: this.selectedCell.key, dir});
         },
 
         handleKeyboardEvents(evt) {
-            // how in vue?
-            evt.preventDefault();
-            evt.stopPropagation();
             if (evt.ctrlKey) {
+                evt.preventDefault();
+                evt.stopPropagation();
                 switch (evt.key) {
                     case "a":
                         this.setBlockedDirection("w");
@@ -113,21 +117,19 @@ export default {
                     case "s":
                         this.setBlockedDirection("s");
                         break;
+                    case "ArrowLeft":
+                        this.moveSelection(-1, 0);
+                        break;
+                    case "ArrowUp":
+                        this.moveSelection(0, -1);
+                        break;
+                    case "ArrowRight":
+                        this.moveSelection(1, 0);
+                        break;
+                    case "ArrowDown":
+                        this.moveSelection(0, 1);
+                        break;
                 }
-            }
-            switch (evt.key) {
-                case "ArrowLeft":
-                    this.moveSelection(-1, 0);
-                    break;
-                case "ArrowUp":
-                    this.moveSelection(0, -1);
-                    break;
-                case "ArrowRight":
-                    this.moveSelection(1, 0);
-                    break;
-                case "ArrowDown":
-                    this.moveSelection(0, 1);
-                    break;
             }
             return false;
         }
@@ -135,4 +137,27 @@ export default {
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.Nav__Main{
+    padding: 5px;
+    text-align: left;
+}
+.Map{
+    border-collapse: collapse;
+}
+
+.Map__ScrollWrapper{
+    padding-bottom: 200px;
+}
+
+.Map__DescriptionEditor{
+    text-align: left;
+    display: flex;
+    width: 100vw;
+    height: 150px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background: lightgray;
+}
+</style>

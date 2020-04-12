@@ -1,244 +1,243 @@
-#app {
-    .pointer {
-        * {
-            cursor: pointer;
-        }
+
+.pointer {
+    * {
         cursor: pointer;
     }
+    cursor: pointer;
+}
 
-    .asBlock {
-        display: block;
-    }
+.asBlock {
+    display: block;
+}
 
-    // Padding
+// Padding
 
-    .padTop1 {
-        padding-top: $u1;
-    }
+.padTop1 {
+    padding-top: $u1;
+}
 
-    .padTop2 {
-        padding-top: $u2;
-    }
+.padTop2 {
+    padding-top: $u2;
+}
 
-    .padTop3 {
-        padding-top: $u3;
-    }
+.padTop3 {
+    padding-top: $u3;
+}
 
-    .padTop4 {
-        padding-top: $u4;
-    }
+.padTop4 {
+    padding-top: $u4;
+}
 
-    .padTop5 {
-        padding-top: $u5;
-    }
+.padTop5 {
+    padding-top: $u5;
+}
 
-    .padTop6 {
-        padding-top: $u6;
-    }
+.padTop6 {
+    padding-top: $u6;
+}
 
-    .padRight1 {
-        padding-right: $u1;
-    }
+.padRight1 {
+    padding-right: $u1;
+}
 
-    .padRight2 {
-        padding-right: $u2;
-    }
+.padRight2 {
+    padding-right: $u2;
+}
 
-    .padRight3 {
-        padding-right: $u3;
-    }
+.padRight3 {
+    padding-right: $u3;
+}
 
-    .padRight4 {
-        padding-right: $u4;
-    }
+.padRight4 {
+    padding-right: $u4;
+}
 
-    .padRight5 {
-        padding-right: $u5;
-    }
+.padRight5 {
+    padding-right: $u5;
+}
 
-    .padRight6 {
-        padding-right: $u6;
-    }
+.padRight6 {
+    padding-right: $u6;
+}
 
-    .padBottom0 {
-        padding-bottom: 0;
-    }
+.padBottom0 {
+    padding-bottom: 0;
+}
 
-    .padBottom1 {
-        padding-bottom: $u1;
-    }
+.padBottom1 {
+    padding-bottom: $u1;
+}
 
-    .padBottom2 {
-        padding-bottom: $u2;
-    }
+.padBottom2 {
+    padding-bottom: $u2;
+}
 
-    .padBottom3 {
-        padding-bottom: $u3;
-    }
+.padBottom3 {
+    padding-bottom: $u3;
+}
 
-    .padBottom4 {
-        padding-bottom: $u4;
-    }
+.padBottom4 {
+    padding-bottom: $u4;
+}
 
-    .padBottom5 {
-        padding-bottom: $u5;
-    }
+.padBottom5 {
+    padding-bottom: $u5;
+}
 
-    .padBottom6 {
-        padding-bottom: $u6;
-    }
+.padBottom6 {
+    padding-bottom: $u6;
+}
 
-    .padLeft1 {
-        padding-left: $u1;
-    }
+.padLeft1 {
+    padding-left: $u1;
+}
 
-    .padLeft2 {
-        padding-left: $u2;
-    }
+.padLeft2 {
+    padding-left: $u2;
+}
 
-    .padLeft3 {
-        padding-left: $u3;
-    }
+.padLeft3 {
+    padding-left: $u3;
+}
 
-    .padLeft4 {
-        padding-left: $u4;
-    }
+.padLeft4 {
+    padding-left: $u4;
+}
 
-    .padLeft5 {
-        padding-left: $u5;
-    }
+.padLeft5 {
+    padding-left: $u5;
+}
 
-    .padLeft6 {
-        padding-left: $u6;
-    }
+.padLeft6 {
+    padding-left: $u6;
+}
 
-    // Margins
+// Margins
 
-    .marginTop1 {
-        margin-top: $u1;
-    }
+.marginTop1 {
+    margin-top: $u1;
+}
 
-    .marginTop2 {
-        margin-top: $u2;
-    }
+.marginTop2 {
+    margin-top: $u2;
+}
 
-    .marginTop3 {
-        margin-top: $u3;
-    }
+.marginTop3 {
+    margin-top: $u3;
+}
 
-    .marginTop4 {
-        margin-top: $u4;
-    }
+.marginTop4 {
+    margin-top: $u4;
+}
 
-    .marginTop5 {
-        margin-top: $u5;
-    }
+.marginTop5 {
+    margin-top: $u5;
+}
 
-    .marginTop6 {
-        margin-top: $u6;
-    }
+.marginTop6 {
+    margin-top: $u6;
+}
 
-    .marginTop10 {
-        margin-top: $u10;
-    }
+.marginTop10 {
+    margin-top: $u10;
+}
 
-    .marginRight1 {
-        margin-right: $u1;
-    }
+.marginRight1 {
+    margin-right: $u1;
+}
 
-    .marginRight2 {
-        margin-right: $u2;
-    }
+.marginRight2 {
+    margin-right: $u2;
+}
 
-    .marginRight3 {
-        margin-right: $u3;
-    }
+.marginRight3 {
+    margin-right: $u3;
+}
 
-    .marginRight4 {
-        margin-right: $u4;
-    }
+.marginRight4 {
+    margin-right: $u4;
+}
 
-    .marginRight5 {
-        margin-right: $u5;
-    }
+.marginRight5 {
+    margin-right: $u5;
+}
 
-    .marginRight6 {
-        margin-right: $u6;
-    }
+.marginRight6 {
+    margin-right: $u6;
+}
 
-    .marginBottom1 {
-        margin-bottom: $u1;
-    }
+.marginBottom1 {
+    margin-bottom: $u1;
+}
 
-    .marginBottom2 {
-        margin-bottom: $u2;
-    }
+.marginBottom2 {
+    margin-bottom: $u2;
+}
 
-    .marginBottom3 {
-        margin-bottom: $u3;
-    }
+.marginBottom3 {
+    margin-bottom: $u3;
+}
 
-    .marginBottom4 {
-        margin-bottom: $u4;
-    }
+.marginBottom4 {
+    margin-bottom: $u4;
+}
 
-    .marginBottom5 {
-        margin-bottom: $u5;
-    }
+.marginBottom5 {
+    margin-bottom: $u5;
+}
 
-    .marginBottom6 {
-        margin-bottom: $u6;
-    }
+.marginBottom6 {
+    margin-bottom: $u6;
+}
 
-    .marginLeft1 {
-        margin-left: $u1;
-    }
+.marginLeft1 {
+    margin-left: $u1;
+}
 
-    .marginLeft2 {
-        margin-left: $u2;
-    }
+.marginLeft2 {
+    margin-left: $u2;
+}
 
-    .marginLeft3 {
-        margin-left: $u3;
-    }
+.marginLeft3 {
+    margin-left: $u3;
+}
 
-    .marginLeft4 {
-        margin-left: $u4;
-    }
+.marginLeft4 {
+    margin-left: $u4;
+}
 
-    .marginLeft5 {
-        margin-left: $u5;
-    }
+.marginLeft5 {
+    margin-left: $u5;
+}
 
-    .marginLeft6 {
-        margin-left: $u6;
-    }
+.marginLeft6 {
+    margin-left: $u6;
+}
 
-    .padTop0 {
-        padding-top: 0;
-    }
+.padTop0 {
+    padding-top: 0;
+}
 
-    .centerMargin {
-        margin-left: auto;
-        margin-right: auto;
-    }
+.centerMargin {
+    margin-left: auto;
+    margin-right: auto;
+}
 
-    // Display
+// Display
 
-    .pRelative {
-        position: relative;
-    }
+.pRelative {
+    position: relative;
+}
 
-    .pAbsolute {
-        position: absolute;
-    }
+.pAbsolute {
+    position: absolute;
+}
 
-    .flex {
-        display: flex;
+.flex {
+    display: flex;
 
-        &__whenSmall {
-            justify-content: space-between;
-        }
+    &__whenSmall {
+        justify-content: space-between;
     }
 }
 

@@ -25,13 +25,12 @@ export default class DatalayerService {
     }
 
     saveCell(key, data) {
-        console.log("save selection in service:", key, data);
         this.keyMap[key] = Object.assign(this.keyMap[key], data);
         this.changedKeyHandler({ key, data: this.keyMap[key] });
         this.saveMap();
     }
 
-    updatedBlocked(key, dir) {
+    updateBlocked({key, dir}) {
         this.keyMap[key][dir] = !this.keyMap[key][dir];
         this.changedKeyHandler({ key, data: this.keyMap[key] });
         this.saveMap();
@@ -43,7 +42,6 @@ export default class DatalayerService {
     }
 
     buildArrays(mapData) {
-        console.log("building arrays", mapData);
         let rows = Array.apply(null, {
             length: this.dimensions[1]
         }).map(() => []);
