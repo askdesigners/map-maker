@@ -3,7 +3,6 @@ import path from "path";
 
 export default class MapManager {
     constructor(ipcMain, jsonMapPath) {
-        console.log("inti1!!", this, ipcMain);
         this.ipcBus = ipcMain;
         this.mapFilePath = jsonMapPath;
         ipcMain.on("getmap", this.getMap.bind(this));
@@ -11,18 +10,15 @@ export default class MapManager {
     }
 
     getMap(event, dimensions) {
-        console.log("getting map", this);
         let emptyMap = this.buildEmptyMap(dimensions);
         event.sender.send("getmap-reply", this.formatForApp(emptyMap, jsonfile.readFileSync(path.join(__dirname, this.mapFilePath)).map));
     }
 
     updateMap(event, newMapData) {
-        let err = jsonfile.writeFileSync(path.join(__dirname, this.mapFilePath), this.formatForSave(newMapData));
-        console.error("Saved file", err);
+        return jsonfile.writeFileSync(path.join(__dirname, this.mapFilePath), this.formatForSave(newMapData));
     }
 
     buildEmptyMap(dimensions) {
-        console.log("build empty map");
         let rows = Array.apply(null, { length: dimensions[1] }).map(() => []);
         let cols = Array.apply(null, { length: dimensions[0] }).map(() => []);
         let newMap = {};
@@ -47,7 +43,6 @@ export default class MapManager {
     }
 
     formatForApp(emptyMap, data) {
-        console.log("formatting map data", Object.keys(emptyMap).length, data.length);
         return data.reduce((m, place) => {
             let key = place.x + "-" + place.y;
             m[key] = {
@@ -61,7 +56,6 @@ export default class MapManager {
                 n: place.blockedTo.indexOf("n") > -1,
                 s: place.blockedTo.indexOf("s") > -1
             };
-            console.log("returning", key, m[key].name, place.name);
             return m;
         }, emptyMap);
     }
@@ -86,7 +80,5 @@ export default class MapManager {
         };
     }
 
-    kill() {
-        console.log("It's dead now...");
-    }
+    kill() { }
 }
