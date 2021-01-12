@@ -1,11 +1,12 @@
 <template lang="html">
     <div v-on:keyup.up="handleKeyboardEvents">
         <nav class="Nav Nav__Main">
-            <select v-model="cellDimension">
+            <select v-model="cellSize">
                 <option value="5">5</option>
                 <option value="10">10</option>
                 <option value="15">15</option>
                 <option value="20">20</option>
+                <option value="25">25</option>
             </select>
             Size
         </nav>
@@ -50,6 +51,7 @@ export default {
         canvas: null,
         cellDimension: 15,
         canvasStyle: {},
+        localCellMap: {}
     }),
     computed: {
         rows() {
@@ -72,10 +74,10 @@ export default {
             this.drawMap();
         },
         cellSize(newVal){
-            this.drawMap();
+            this.redrawCells();
         },
         selectedCell(){
-            this.drawMap();
+            this.redrawCells();
         },
     },
     methods: {
@@ -85,26 +87,56 @@ export default {
                 selectionColor: "blue",
                 selectionLineWidth: 1
             });
-            // var rect = new fabric.Rect();
-
-            // canvas.add(rect); // add object
-
-            // canvas.item(0); // reference fabric.Rect added earlier (first object)
-            // canvas.getObjects(); // get all objects on canvas (rect will be first and only)
-
-            // canvas.remove(rect); // remove previously-added fabric.Rect
         },
         drawMap(){
+            // this.canvas.clear();
             const cellsH = this.rows.length;
             const cellsW = this.rows[0].length;
-    console.log( this.cellSize);
+            console.log( this.cellSize);
+            this.localCellMap = {};
             this.canvas.setHeight(cellsH * this.cellSize);
             this.canvas.setWidth(cellsW * this.cellSize);
-            this.rows.forEach(row => {
-                row.forEach(cell => {
+            this.rows.forEach((row, rowI) => {
+                row.forEach((cell, cellI) => {
                     // console.log(cell);
-                    const rect = new fabric.Rect();
+                    const cellOptions = {
+                        fill: "#ffffff",
+                        hasControls: false,
+                        height: this.cellSize,
+                        width: this.cellSize,
+                        left: this.cellSize * cellI,
+                        top: this.cellSize * rowI,
+                        lockMovementY: true,
+                        lockMovementX: true,
+                        lockRotation: true,
+                        stroke: "f3f3f3"
+                    };
+                    const rect = new fabric.Rect(cellOptions);
+                    const add = this.canvas.add(rect);
+                    // console.log(add)
+                    this.localCellMap[cell.key] = {
+                        cellref: this.canvas.item((rowI + 1) * cellI),
+                        x: cellI,
+                        y: rowI
+                    };
                 });
+            });
+        },
+        redrawCells(){
+            Object.keys(this.localCellMap).forEach(cell => {
+                const cellOptions = {
+                    fill: "#ffffff",
+                    hasControls: false,
+                    height: this.cellSize,
+                    width: this.cellSize,
+                    left: this.cellSize * cell.x,
+                    top: this.cellSize * cell.y,
+                    lockMovementY: true,
+                    lockMovementX: true,
+                    lockRotation: true,
+                    stroke: "f3f3f3"
+                };
+                this.localCellMap[cell].cellref.setOptions(cellOptions);
             });
         },
         moveSelection(x, y) {

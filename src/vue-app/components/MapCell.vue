@@ -59,7 +59,7 @@ export default {
     overflow: hidden;
     cursor: pointer;
     border-radius: 4px;
-    background: white;
+    background: #f3f3f3;
 
     &:hover {
         background: $palegreen;
