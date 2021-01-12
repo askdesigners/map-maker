@@ -1,6 +1,6 @@
 export default {
-    SET_TINY(state, setting) {
-        state.isTiny = setting;
+    SET_CELL_DIMENSIONS(state, setting) {
+        state.cellDimensions = setting;
     },
     SET_SELECTED_CELL(state, selectedCell) {
         state.selectedCell = selectedCell;

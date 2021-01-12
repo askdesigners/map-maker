@@ -33,8 +33,8 @@ const initMap = () => {
     dataLayer.initMap();
 };
 
-const setIsTiny = ({ commit }, value) => {
-    commit("SET_TINY", value);
+const setCellDimensions = ({ commit }, value) => {
+    commit("SET_CELL_DIMENSIONS", value);
 };
 
 export default {
@@ -44,5 +44,5 @@ export default {
     saveMap,
     saveCell,
     initMap,
-    setIsTiny
+    setCellDimensions
 };

@@ -1,12 +1,18 @@
 <template lang="html">
     <div v-on:keyup.up="handleKeyboardEvents">
         <nav class="Nav Nav__Main">
-            <input type="checkbox" class="Input Input__Checkbox " v-model="isTiny" />
-            Tiny
+            <select v-model="cellDimension">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+            </select>
+            Size
         </nav>
         <section class="Page">
             <section class="Map__ScrollWrapper">
-                <table class="Map">
+                <canvas id="Map" class="Map" :style="canvasStyle"/>
+                <!-- <table class="Map">
                     <tbody class="Map__Wrapper">
                         <tr class="Map__Row" v-for="(row, index) of rows" :key="`row-${index}`">
                             <td class="Map__Cell" v-for="(cell, index) of row" :key="`cell-${cell.name}-${index}`">
@@ -14,90 +20,103 @@
                             </td>
                         </tr>
                     </tbody>
-                </table>
+                </table> -->
             </section>
-            <section class="Map__DescriptionEditor padTop3 padBottom3 padLeft5 padRight5">
-                <div class="col__1">
-                    <p class="T__s1">
-                        {{ selectedCell.key }}
-                    </p>
-                </div>
-                <div class="col__2 padLeft1 padRight1">
-                    <div class="marginBottom2">
-                        <p>Name</p>
-                        <input type="text" class="Input Input__text fullWidth" v-model="selectedObject.name" placeholder="Name" />
-                    </div>
-                    <div class="">
-                        <p>Desc. Name</p>
-                        <input type="text" class="Input Input__text fullWidth" v-model="selectedObject.descriptiveName" placeholder="Descriptive name" />
-                    </div>
-                </div>
-                <div class="col__2 padLeft1 padRight1">
-                    <p>Description</p>
-                    <textarea id="" cols="30" rows="6" class="Input Input__textarea fullWidth" v-model="selectedObject.description">
-                        Location Description
-                    </textarea>
-                </div>
-                <div class="col_1 padLeft1">
-                    <button class="Button Button__Primary" @click="updateCell()">Update</button>
-                </div>
-            </section>
+            <DescriptionsPanel :selectedCell="selectedCell" />
         </section>
     </div>
 </template>
 
 <script>
+//http://fabricjs.com/docs/fabric.Line.html
 /* eslint-disable indent */
 "use strict";
-import MapCell from "./MapCell";
+// import MapCell from "./MapCell";
+import DescriptionsPanel from "./DescriptionsPanel";
+import { fabric } from "fabric";
+
 export default {
     name: "MapRoot",
     components: {
-        MapCell
+        // MapCell,
+        DescriptionsPanel
     },
     mounted() {
         this.$store.dispatch("initMap");
         window.addEventListener("keydown", this.handleKeyboardEvents);
+        this.setupCanvas();
     },
     data: () => ({
-        selectedObject: {}
+        canvas: null,
+        cellDimension: 15,
+        canvasStyle: {},
     }),
-    watch:{
-        selectedCell(newcell){
-            this.selectedObject = {...newcell};
-        }
-    },
     computed: {
         rows() {
             return this.$store.state.mapRows;
         },
-        isTiny: {
+        cellSize: {
             get() {
-                return this.$store.state.isTiny;
+                return this.$store.state.cellDimensions;
             },
             set(value) {
-                this.$store.dispatch("setIsTiny", value);
+                this.$store.dispatch("setCellDimensions", value);
             }
         },
         selectedCell() {
             return this.$store.state.selectedCell;
         }
     },
-    methods: {
-        updateCell() {
-            this.$store.dispatch("saveCell", { key: this.selectedCell.key, data: this.selectedObject });
+    watch:{
+        rows(){
+            this.drawMap();
         },
+        cellSize(newVal){
+            this.drawMap();
+        },
+        selectedCell(){
+            this.drawMap();
+        },
+    },
+    methods: {
+        setupCanvas() {
+            this.canvas = new fabric.Canvas("Map", {
+                backgroundColor: "rgb(240,240,240)",
+                selectionColor: "blue",
+                selectionLineWidth: 1
+            });
+            // var rect = new fabric.Rect();
 
+            // canvas.add(rect); // add object
+
+            // canvas.item(0); // reference fabric.Rect added earlier (first object)
+            // canvas.getObjects(); // get all objects on canvas (rect will be first and only)
+
+            // canvas.remove(rect); // remove previously-added fabric.Rect
+        },
+        drawMap(){
+            const cellsH = this.rows.length;
+            const cellsW = this.rows[0].length;
+    console.log( this.cellSize);
+            this.canvas.setHeight(cellsH * this.cellSize);
+            this.canvas.setWidth(cellsW * this.cellSize);
+            this.rows.forEach(row => {
+                row.forEach(cell => {
+                    // console.log(cell);
+                    const rect = new fabric.Rect();
+                });
+            });
+        },
         moveSelection(x, y) {
-            if (this.selectedCell === undefined) this.selectedCell = {key: "1-1"};
+            if (this.selectedCell === undefined) this.selectedCell = { key: "1-1" };
             let pos = this.selectedCell.key.split("-");
             pos[0] = parseInt(pos[0], 10) + x;
             pos[1] = parseInt(pos[1], 10) + y;
-            this.$store.dispatch("updateSelection", {key: pos.join("-")});
+            this.$store.dispatch("updateSelection", { key: pos.join("-") });
         },
 
         setBlockedDirection(dir) {
-            this.$store.dispatch("updateBlocked", {key: this.selectedCell.key, dir});
+            this.$store.dispatch("updateBlocked", { key: this.selectedCell.key, dir });
         },
 
         handleKeyboardEvents(evt) {
@@ -138,26 +157,20 @@ export default {
 </script>
 
 <style lang="scss">
-.Nav__Main{
+.Page {
+    padding-right: 300px;
+}
+
+.Nav__Main {
     padding: 5px;
     text-align: left;
 }
-.Map{
+.Map {
     border-collapse: collapse;
+    // background: lightgrey;
 }
 
-.Map__ScrollWrapper{
+.Map__ScrollWrapper {
     padding-bottom: 200px;
-}
-
-.Map__DescriptionEditor{
-    text-align: left;
-    display: flex;
-    width: 100vw;
-    height: 150px;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    background: lightgray;
 }
 </style>
