@@ -4,7 +4,7 @@ export default class DatalayerService {
     constructor(changedKeyHandler, mapReadyhandler) {
         this.mapReadyhandler = mapReadyhandler;
         this.changedKeyHandler = changedKeyHandler;
-        this.dimensions = [66, 50];
+        this.dimensions = [20,20];
         this.selectedCell = "";
         this.keyMap = {};
         this.arrayMap = [];
