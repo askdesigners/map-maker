@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "baseUrl": "src/vue-app",
+        "paths": {
+            "components/*": [
+                "src/vue-app/components/*"
+            ]
+        }
+    }
+}
