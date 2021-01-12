@@ -30,19 +30,6 @@
 		"type": "git",
 		"url": "git+https://github.com/oliverfindl/electron-vue-boilerplate.git"
 	},
-	"keywords": [
-		"electron",
-		"electron-builder",
-		"webpack",
-		"webpack-dev-server",
-		"vue",
-		"vue-router",
-		"vuex",
-		"sass",
-		"node-sass",
-		"boilerplate",
-		"electron-vue-boilerplate"
-	],
 	"author": "Oliver Findl",
 	"license": "MIT",
 	"bugs": {
@@ -50,6 +37,7 @@
 	},
 	"homepage": "https://github.com/oliverfindl/electron-vue-boilerplate#readme",
 	"dependencies": {
+		"fabric": "^4.3.0",
 		"jsonfile": "^6.0.1",
 		"vue": "^2.6.11",
 		"vuex": "^3.1.3"
