@@ -15,8 +15,7 @@
 
 export default {
     name: "MapCell",
-    mounted() {
-    },
+    mounted() {},
     props: ["cellData"],
     data: () => ({}),
     computed: {
@@ -25,25 +24,29 @@ export default {
         },
         isTiny() {
             return this.$store.state.isTiny;
-        }
+        },
     },
     methods: {
         select() {
             this.$store.dispatch("updateSelection", this.cellData);
-        }
+        },
     },
-    watch:{
-        selected(newVal, oldVal){
-            if(newVal && !oldVal){
+    watch: {
+        selected(newVal, oldVal) {
+            if (newVal && !oldVal) {
                 this.select();
             }
-        }
-    }
+        },
+    },
 };
 </script>
 
 <style lang="scss">
 @import "../scss/vars";
+
+.Map__Cell {
+    // padding: 0 1px 1px 0;
+}
 
 .Map__CellInner {
     display: block;
@@ -55,29 +58,31 @@ export default {
     white-space: nowrap;
     overflow: hidden;
     cursor: pointer;
+    border-radius: 4px;
+    background: white;
 
-    &:hover{
+    &:hover {
         background: $palegreen;
     }
 
-    *{
+    * {
         cursor: pointer;
     }
 
-    &.cellSelected{
+    &.cellSelected {
         background: $ltblue;
     }
 
-    &.blockToN{
+    &.blockToN {
         border-top: 1px solid $dkblue;
     }
-    &.blockToS{
+    &.blockToS {
         border-bottom: 1px solid $dkblue;
     }
-    &.blockToE{
+    &.blockToE {
         border-right: 1px solid $dkblue;
     }
-    &.blockToW{
+    &.blockToW {
         border-left: 1px solid $dkblue;
     }
 }
@@ -98,7 +103,7 @@ export default {
     }
 }
 
-.Indicator__Outer{
+.Indicator__Outer {
     height: 10px;
 }
 
