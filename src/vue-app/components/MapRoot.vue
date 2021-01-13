@@ -12,7 +12,7 @@
                 <label for="borders">Size</label>
             </div>
             <div class="control">
-                <input type="checkbox" name="borders" v-model="showBorders"/>
+                <input type="checkbox" name="borders" v-model="showBorders" />
                 <label for="borders">Show borders</label>
             </div>
         </nav>
@@ -22,20 +22,24 @@
                 <v-stage :config="configKonva">
                     <v-layer>
                         <template v-for="(row, rowI) of rows">
-                            <template v-for="(cell, colI) of row" >
-                                <v-rect :config="getRect(cell, rowI, colI)" :key="`cell-${colI}-${rowI}`"/>
+                            <template v-for="(cell, colI) of row">
+                                <v-rect :config="getRect(cell, rowI, colI)" :key="`cell-${colI}-${rowI}`" />
                                 <!-- <v-circle :config="configCircle"></v-circle> -->
                             </template>
                         </template>
                     </v-layer>
                     <v-layer>
                         <template v-for="(row, rowI) of rows">
-                            <template v-for="(cell, colI) of row" >
+                            <template v-for="(cell, colI) of row">
                                 <v-group :key="`walls-${colI}-${rowI}`" :config="getRectInner(cell, rowI, colI)">
-                                    <v-line :config="getN(cell, rowI, colI)" :key="`wall-n-${colI}-${rowI}`"/>
-                                    <v-line :config="getS(cell, rowI, colI)" :key="`wall-s-${colI}-${rowI}`"/>
-                                    <v-line :config="getE(cell, rowI, colI)" :key="`wall-e-${colI}-${rowI}`"/>
-                                    <v-line :config="getW(cell, rowI, colI)" :key="`wall-w-${colI}-${rowI}`"/>
+                                    <v-line :config="getN(cell)" :key="`wall-n-${colI}-${rowI}`" />
+                                    <v-line :config="getS(cell)" :key="`wall-s-${colI}-${rowI}`" />
+                                    <v-line :config="getE(cell)" :key="`wall-e-${colI}-${rowI}`" />
+                                    <v-line :config="getW(cell)" :key="`wall-w-${colI}-${rowI}`" />
+                                    <v-circle :config="getDesc(cell)" :key="`desc-${colI}-${rowI}`" />
+                                    <v-circle :config="getDescName(cell)" :key="`descname-${colI}-${rowI}`" />
+                                    <v-circle :config="getName(cell)" :key="`name-${colI}-${rowI}`" />
+                                    <v-text :config="{ text: cell.key, fontSize: 8, align: 'center', offsetY: -3, fill: '#797979', width: cellSize }" />
                                 </v-group>
                                 <!-- <v-circle :config="configCircle"></v-circle> -->
                             </template>
@@ -58,7 +62,6 @@
 </template>
 
 <script>
-
 /* eslint-disable indent */
 "use strict";
 // import MapCell from "./MapCell";
@@ -77,18 +80,19 @@ export default {
         this.rectConfig.height = this.cellSize;
         this.rectConfig.width = this.cellSize;
     },
-    data: () =>{
-        return{
+    data: () => {
+        return {
             showBorders: true,
+            borderOffset: 1,
             configKonva: {
                 width: 970,
                 height: 600
             },
             rectConfig: {
-                height: 25, 
-                width: 25,
+                height: 25,
+                width: 25
             }
-        }
+        };
     },
     computed: {
         rows() {
@@ -119,78 +123,96 @@ export default {
     },
     methods: {
         getRect(cell, row, col) {
-            if(!this.showBorders) return {
-                visible: false
-            };
-            return { ...this.rectConfig,  x: this.cellSize * col, y: this.cellSize * row, stroke: "#f3f3f3", fill: "transparent" };
+            if (!this.showBorders)
+                return {
+                    visible: false
+                };
+            return { ...this.rectConfig, x: this.cellSize * col, y: this.cellSize * row, stroke: "#f3f3f3", fill: "transparent" };
         },
         getRectInner(cell, row, col) {
-            return { ...this.rectConfig, name: cell.key, listening: true, x: this.cellSize * col, y: this.cellSize * row};
+            return { ...this.rectConfig, name: cell.key, listening: true, x: this.cellSize * col, y: this.cellSize * row };
         },
-        getN(cell, row, col){
-            console.log(cell.key, col, row);
-            // if(cell.n === false) return {visible: false};
-            let x1 = 2;
-            let y1 = 2;
-            let x2 = this.cellSize - 2;
-            let y2 = 2;
+        getN(cell) {
+            if (cell.n === false) return { visible: false };
+            let x1 = this.borderOffset;
+            let y1 = this.borderOffset;
+            let x2 = this.cellSize - this.borderOffset;
+            let y2 = this.borderOffset;
             return {
-                points:[x1, y1, x2, y2],
+                points: [x1, y1, x2, y2],
                 strokeWidth: 1,
                 stroke: "#121938",
                 lineCap: "round",
-                name:"north"
+                name: "north"
             };
         },
-        getS(cell, row, col){
-            // key: (...)
-            // level: (...)
-            // name: (...)
-            // descriptiveName: (...)
-            // description: (...)
-            // w: (...)
-            // e: (...)
-            // n: (...)
-            // s: (...)
-            // if(cell.s === false) return {visible: false};
-            let x1 = 2;
-            let y1 = this.cellSize - 2;
-            let x2 = this.cellSize - 2;
-            let y2 = this.cellSize - 2;
+        getS(cell) {
+            if (cell.s === false) return { visible: false };
+            let x1 = this.borderOffset;
+            let y1 = this.cellSize - this.borderOffset;
+            let x2 = this.cellSize - this.borderOffset;
+            let y2 = this.cellSize - this.borderOffset;
             return {
-                points:[x1, y1, x2, y2],
+                points: [x1, y1, x2, y2],
                 strokeWidth: 1,
                 stroke: "#121938",
                 lineCap: "round",
-                name:"south"
+                name: "south"
             };
         },
-        getW(cell, row, col){
-            // if(cell.w === false) return {visible: false};
-            let x1 = 2;
-            let y1 = 2;
-            let x2 = 2;
-            let y2 = this.cellSize - 2;
+        getW(cell) {
+            if (cell.w === false) return { visible: false };
+            let x1 = this.borderOffset;
+            let y1 = this.borderOffset;
+            let x2 = this.borderOffset;
+            let y2 = this.cellSize - this.borderOffset;
             return {
-                points:[x1, y1, x2, y2],
+                points: [x1, y1, x2, y2],
                 strokeWidth: 1,
                 stroke: "#121938",
                 lineCap: "round",
-                name:"west"
+                name: "west"
             };
         },
-        getE(cell, row, col){
-            // if(cell.e === false) return {visible: false};
-            let x1 = this.cellSize - 2;
-            let y1 = 2;
-            let x2 = this.cellSize - 2;
-            let y2 = this.cellSize - 2;
+        getE(cell) {
+            if (cell.e === false) return { visible: false };
+            let x1 = this.cellSize - this.borderOffset;
+            let y1 = this.borderOffset;
+            let x2 = this.cellSize - this.borderOffset;
+            let y2 = this.cellSize - this.borderOffset;
             return {
-                points:[x1, y1, x2, y2],
+                points: [x1, y1, x2, y2],
                 strokeWidth: 1,
                 stroke: "#121938",
                 lineCap: "round",
-                name:"east"
+                name: "east"
+            };
+        },
+        getDesc(cell) {
+            if (!cell.description) return { visible: false };
+            return {
+                  x: ((this.cellSize / 6) * 2) - 2,
+                  y: this.cellSize - (this.cellSize / 3),
+                radius: 2,
+                fill: "green"
+            };
+        },
+        getDescName(cell) {
+            if (!cell.descriptiveName) return { visible: false };
+            return {
+                  x: ((this.cellSize / 6) * 3) - 2,
+                  y: this.cellSize - (this.cellSize / 3),
+                radius: 2,
+                fill: "orange"
+            };
+        },
+        getName(cell) {
+            if (!cell.name) return { visible: false };
+            return {
+                  x: ((this.cellSize / 6) * 4) - 2,
+                  y: this.cellSize - (this.cellSize / 3),
+                radius: 2,
+                fill: "blue"
             };
         },
         setupCanvas() {
@@ -203,7 +225,7 @@ export default {
             //     const delta = opt.e.deltaY;
             //     let zoom = this.canvas.getZoom();
             //     zoom *= 0.999 ** delta;
-            //     if (zoom > 20) zoom = 20;
+            //     if (zoom > 20) zoom = this.borderOffset0;
             //     if (zoom < 0.01) zoom = 0.01;
             //     this.canvas.setZoom(zoom);
             //     opt.e.preventDefault();
@@ -313,7 +335,7 @@ export default {
     text-align: left;
 }
 
-.control{
+.control {
     padding-right: 20px;
 }
 
