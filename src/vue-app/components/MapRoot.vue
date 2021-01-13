@@ -2,59 +2,52 @@
     <div v-on:keyup.up="handleKeyboardEvents">
         <nav class="Nav Nav__Main flex">
             <div class="control">
-                <select v-model="cellSize" name="borders">
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="15">15</option>
-                    <option value="20">20</option>
-                    <option value="25">25</option>
-                </select>
-                <label for="borders">Size</label>
+                <input type="checkbox" id="mapImage" v-model="showMap" />
+                <label for="mapImage">Show map</label>
             </div>
             <div class="control">
-                <input type="checkbox" name="borders" v-model="showBorders" />
+                <input type="checkbox" id="borders" v-model="showBorders" />
                 <label for="borders">Show borders</label>
+            </div>
+            <div class="control">
+                <input type="checkbox" id="labels" v-model="showLabels" />
+                <label for="labels">Show labels</label>
             </div>
         </nav>
         <section class="Page">
             <section class="Map__ScrollWrapper">
-                <!-- <canvas id="Map" class="Map" :style="canvasStyle" /> -->
                 <v-stage :config="configKonva">
-                    <v-layer>
+                    <v-layer :config="{visible: showMap}">
+                        <v-image :config="mapImage" />
+                    </v-layer>
+                    <v-layer :config="{visible: showBorders}">
                         <template v-for="(row, rowI) of rows">
+                            <v-line :config="{ stroke: '#f3f3f3', strokeWidth: 1, opacity: 0.2, points: [0, cellSize * rowI, configKonva.width, cellSize * rowI] }" :key="`grid-x-${rowI}`" />
                             <template v-for="(cell, colI) of row">
-                                <v-rect :config="getRect(cell, rowI, colI)" :key="`cell-${colI}-${rowI}`" />
-                                <!-- <v-circle :config="configCircle"></v-circle> -->
+                                <v-line :config="{ stroke: '#f3f3f3', strokeWidth: 1, opacity: 0.02, points: [cellSize * colI, 0, cellSize * colI, configKonva.height] }" :key="`grid-y-${rowI}-${colI}`" />
                             </template>
                         </template>
                     </v-layer>
                     <v-layer>
                         <template v-for="(row, rowI) of rows">
                             <template v-for="(cell, colI) of row">
-                                <v-group :key="`walls-${colI}-${rowI}`" :config="getRectInner(cell, rowI, colI)">
+                                <v-group :key="`walls-${colI}-${rowI}`" :config="getRectInner(cell, rowI, colI)" @click="selectCell(cell)">
+                                    <v-rect :config="{ width: cellSize, height: cellSize, fill: '#03fcf4', opacity: cell.key === selectedCell.key ? 0.8 : 0 }" :key="`bg-${colI}-${rowI}`" />
                                     <v-line :config="getN(cell)" :key="`wall-n-${colI}-${rowI}`" />
                                     <v-line :config="getS(cell)" :key="`wall-s-${colI}-${rowI}`" />
                                     <v-line :config="getE(cell)" :key="`wall-e-${colI}-${rowI}`" />
                                     <v-line :config="getW(cell)" :key="`wall-w-${colI}-${rowI}`" />
-                                    <v-circle :config="getDesc(cell)" :key="`desc-${colI}-${rowI}`" />
-                                    <v-circle :config="getDescName(cell)" :key="`descname-${colI}-${rowI}`" />
-                                    <v-circle :config="getName(cell)" :key="`name-${colI}-${rowI}`" />
-                                    <v-text :config="{ text: cell.key, fontSize: 8, align: 'center', offsetY: -3, fill: '#797979', width: cellSize }" />
+                                    <v-group :config="{visible: showLabels}" :key="`labels-${colI}-${rowI}`">
+                                        <v-circle :config="getDesc(cell)" :key="`desc-${colI}-${rowI}`" />
+                                        <v-circle :config="getDescName(cell)" :key="`descname-${colI}-${rowI}`" />
+                                        <v-circle :config="getName(cell)" :key="`name-${colI}-${rowI}`" />
+                                        <v-text :config="{ text: cell.key, fontSize: 8, align: 'center', offsetY: -3, fill: '#797979', width: cellSize }" />
+                                    </v-group>
                                 </v-group>
-                                <!-- <v-circle :config="configCircle"></v-circle> -->
                             </template>
                         </template>
                     </v-layer>
                 </v-stage>
-                <!-- <table class="Map">
-                    <tbody class="Map__Wrapper">
-                        <tr class="Map__Row" v-for="(row, index) of rows" :key="`row-${index}`">
-                            <td class="Map__Cell" v-for="(cell, index) of row" :key="`cell-${cell.name}-${index}`">
-                                <MapCell :cellData="cell"></MapCell>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table> -->
             </section>
             <DescriptionsPanel :selectedCell="selectedCell" />
         </section>
@@ -75,22 +68,33 @@ export default {
     },
     mounted() {
         this.$store.dispatch("initMap");
-        // window.addEventListener("keydown", this.handleKeyboardEvents);
-        // this.setupCanvas();
-        this.rectConfig.height = this.cellSize;
-        this.rectConfig.width = this.cellSize;
+        const image = new Image();
+        image.src = "https://i.imgur.com/MJTskdL.jpg";
+        image.onload = () => {
+            // set image only when it is loaded
+            this.mapImage = {
+                image,
+                width: image.naturalWidth,
+                height: image.naturalHeight,
+            };
+        };
     },
     data: () => {
         return {
+            showMap: true,
             showBorders: true,
+            showLabels: true,
             borderOffset: 1,
+            mapImage: null,
             configKonva: {
-                width: 970,
-                height: 600
+                width: 1200,
+                height: 800,
+                draggable: true,
+                fill: "grey"
             },
             rectConfig: {
-                height: 25,
-                width: 25
+                height: 30,
+                width: 30
             }
         };
     },
@@ -122,6 +126,9 @@ export default {
         }
     },
     methods: {
+        selectCell(cell) {
+            this.$store.dispatch("updateSelection", cell);
+        },
         getRect(cell, row, col) {
             if (!this.showBorders)
                 return {
@@ -191,8 +198,8 @@ export default {
         getDesc(cell) {
             if (!cell.description) return { visible: false };
             return {
-                  x: ((this.cellSize / 6) * 2) - 2,
-                  y: this.cellSize - (this.cellSize / 3),
+                x: (this.cellSize / 6) * 2 - 2,
+                y: this.cellSize - this.cellSize / 3,
                 radius: 2,
                 fill: "green"
             };
@@ -200,8 +207,8 @@ export default {
         getDescName(cell) {
             if (!cell.descriptiveName) return { visible: false };
             return {
-                  x: ((this.cellSize / 6) * 3) - 2,
-                  y: this.cellSize - (this.cellSize / 3),
+                x: (this.cellSize / 6) * 3 - 2,
+                y: this.cellSize - this.cellSize / 3,
                 radius: 2,
                 fill: "orange"
             };
@@ -209,8 +216,8 @@ export default {
         getName(cell) {
             if (!cell.name) return { visible: false };
             return {
-                  x: ((this.cellSize / 6) * 4) - 2,
-                  y: this.cellSize - (this.cellSize / 3),
+                x: (this.cellSize / 6) * 4 - 2,
+                y: this.cellSize - this.cellSize / 3,
                 radius: 2,
                 fill: "blue"
             };
@@ -333,6 +340,7 @@ export default {
 .Nav__Main {
     padding: 5px;
     text-align: left;
+    background: whitesmoke;
 }
 
 .control {

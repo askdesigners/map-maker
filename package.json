@@ -1,5 +1,5 @@
 {
-	"name": "electron-vue-boilerplate",
+	"name": "text-adventure-map-maker",
 	"version": "1.4.1",
 	"description": "Simple boilerplate for building Vue app with Electron and Webpack.",
 	"main": "dist/electron-app/main.js",
@@ -26,16 +26,8 @@
 			"output": "build/"
 		}
 	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/oliverfindl/electron-vue-boilerplate.git"
-	},
-	"author": "Oliver Findl",
+	"author": "Ryan Cole",
 	"license": "MIT",
-	"bugs": {
-		"url": "https://github.com/oliverfindl/electron-vue-boilerplate/issues"
-	},
-	"homepage": "https://github.com/oliverfindl/electron-vue-boilerplate#readme",
 	"dependencies": {
 		"jsonfile": "^6.0.1",
 		"konva": "^7.2.2",

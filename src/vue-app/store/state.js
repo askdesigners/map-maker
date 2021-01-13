@@ -1,5 +1,5 @@
 export default {
     selectedCell: {},
-    cellDimensions: 25,
+    cellDimensions: 30,
     mapRows: []
 };
