@@ -31,8 +31,8 @@
                     <v-layer>
                         <template v-for="(row, rowI) of rows">
                             <template v-for="(cell, colI) of row">
-                                <v-group :key="`walls-${colI}-${rowI}`" :config="getRectInner(cell, rowI, colI)" @click="selectCell(cell)">
-                                    <v-rect :config="{ width: cellSize, height: cellSize, fill: '#03fcf4', opacity: cell.key === selectedCell.key ? 0.8 : 0 }" :key="`bg-${colI}-${rowI}`" />
+                                <v-group :key="`walls-${colI}-${rowI}`" :config="getRectInner(cell, rowI, colI)" @click="selectCell($event, cell)">
+                                    <v-rect :config="{ width: cellSize, height: cellSize, fill: '#03fcf4', opacity: selectedCellKeys.includes(cell.key) ? 0.8 : 0 }" :key="`bg-${colI}-${rowI}`" />
                                     <v-line :config="getN(cell)" :key="`wall-n-${colI}-${rowI}`" />
                                     <v-line :config="getS(cell)" :key="`wall-s-${colI}-${rowI}`" />
                                     <v-line :config="getE(cell)" :key="`wall-e-${colI}-${rowI}`" />
@@ -112,22 +112,15 @@ export default {
         },
         selectedCell() {
             return this.$store.state.selectedCell;
-        }
-    },
-    watch: {
-        rows() {
-            // this.drawMap();
         },
-        cellSize(newVal) {
-            // this.redrawCells();
-        },
-        selectedCell() {
-            // this.redrawCells();
+        selectedCellKeys() {
+            return this.$store.state.selectedCell.map(c=>c.key);
         }
     },
     methods: {
-        selectCell(cell) {
-            this.$store.dispatch("updateSelection", cell);
+        selectCell({evt}, cell) {
+            console.log(evt);
+            this.$store.dispatch("updateSelection", {cell, op: evt.altKey ? "add" : "replace"});
         },
         getRect(cell, row, col) {
             if (!this.showBorders)
@@ -222,67 +215,6 @@ export default {
                 fill: "blue"
             };
         },
-        setupCanvas() {
-            // this.canvas = new fabric.Canvas("Map", {
-            //     backgroundColor: "rgb(240,240,240)",
-            //     selectionColor: "blue",
-            //     selectionLineWidth: 1
-            // });
-            // this.canvas.on("mouse:wheel", opt => {
-            //     const delta = opt.e.deltaY;
-            //     let zoom = this.canvas.getZoom();
-            //     zoom *= 0.999 ** delta;
-            //     if (zoom > 20) zoom = this.borderOffset0;
-            //     if (zoom < 0.01) zoom = 0.01;
-            //     this.canvas.setZoom(zoom);
-            //     opt.e.preventDefault();
-            //     opt.e.stopPropagation();
-            // });
-            // this.canvas.on("mouse:down", function(opt) {
-            //     const evt = opt.e;
-            //     if (evt.altKey === true) {
-            //         this.isDragging = true;
-            //         this.selection = false;
-            //         this.lastPosX = evt.clientX;
-            //         this.lastPosY = evt.clientY;
-            //     }
-            // });
-            // this.canvas.on("mouse:move", function(opt) {
-            //     if (this.isDragging) {
-            //         var e = opt.e;
-            //         var vpt = this.viewportTransform;
-            //         vpt[4] += e.clientX - this.lastPosX;
-            //         vpt[5] += e.clientY - this.lastPosY;
-            //         this.requestRenderAll();
-            //         this.lastPosX = e.clientX;
-            //         this.lastPosY = e.clientY;
-            //     }
-            // });
-            // this.canvas.on("mouse:up", function(opt) {
-            //     // on mouse up we want to recalculate new interaction
-            //     // for all objects, so we call setViewportTransform
-            //     this.setViewportTransform(this.viewportTransform);
-            //     this.isDragging = false;
-            //     this.selection = true;
-            // });
-        },
-        // redrawCells() {
-        //     Object.keys(this.localCellMap).forEach(cell => {
-        //         const cellOptions = {
-        //             fill: "#ffffff",
-        //             hasControls: false,
-        //             height: this.cellSize,
-        //             width: this.cellSize,
-        //             left: this.cellSize * cell.x,
-        //             top: this.cellSize * cell.y,
-        //             lockMovementY: true,
-        //             lockMovementX: true,
-        //             lockRotation: true,
-        //             stroke: "#f3f3f3"
-        //         };
-        //         this.localCellMap[cell].cellref.setOptions(cellOptions);
-        //     });
-        // },
         moveSelection(x, y) {
             if (this.selectedCell === undefined) this.selectedCell = { key: "1-1" };
             let pos = this.selectedCell.key.split("-");

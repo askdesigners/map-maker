@@ -15,21 +15,30 @@
         <div class="DescRow">
             <div class="marginBottom2">
                 <p>Name</p>
-                <input type="text" class="Input Input__text fullWidth" v-model="selectedObject.name" placeholder="Name" />
+                <input type="text" class="Input Input__text fullWidth" v-model="selectedObject.name" placeholder="Name" v-if="canEditName"/>
+                <p class="T__s2 T__italic" v-if="!canEditName">
+                    Multiple Values
+                </p>
             </div>
             <div>
                 <p>Desc. Name</p>
-                <input type="text" class="Input Input__text fullWidth" v-model="selectedObject.descriptiveName" placeholder="Descriptive name" />
+                <input type="text" class="Input Input__text fullWidth" v-model="selectedObject.descriptiveName" placeholder="Descriptive name" v-if="canEditDescName"/>
+                <p class="T__s2 T__italic" v-if="!canEditDescName">
+                    Multiple Values
+                </p>
             </div>
         </div>
         <div class="DescRow">
             <p>Description</p>
-            <textarea id="" cols="30" rows="6" class="Input Input__textarea fullWidth" v-model="selectedObject.description">
+            <textarea id="" cols="30" rows="6" class="Input Input__textarea fullWidth" v-model="selectedObject.description" v-if="canEditDesc">
                 Location Description
             </textarea>
+            <p class="T__s2 T__italic" v-if="!canEditDesc">
+                Multiple Values
+            </p>
         </div>
         <div class="col_1 padLeft1">
-            <button class="Button Button__Primary" @click="updateCell()">Update Cell</button>
+            <button class="Button Button__Primary" @click="updateCell()">Update Cell{{selectedCell.length > 1 && "s"}}</button>
         </div>
     </section>
 </template>
@@ -37,6 +46,10 @@
 <script>
 /* eslint-disable indent */
 "use strict";
+
+function onlyUnique(value, index, self) {
+  return self.indexOf(value) === index;
+}
 
 export default {
     name: "DescriptionEditor",
@@ -52,6 +65,15 @@ export default {
         isTiny() {
             return this.$store.state.isTiny;
         },
+        canEditDesc(){
+            return this.selectedCell.map((cell)=>cell.description).filter(onlyUnique).length === 1;
+        },
+        canEditDescName(){
+            return this.selectedCell.map((cell)=>cell.descriptiveName).filter(onlyUnique).length === 1;
+        },
+        canEditName(){
+            return this.selectedCell.map((cell)=>cell.name).filter(onlyUnique).length === 1;
+        },
     },
     methods: {
         updateCell() {
@@ -60,8 +82,11 @@ export default {
     },
     watch: {
         selectedCell(newcell) {
-            console.log(newcell);
-            this.selectedObject = { ...newcell };
+            if(this.selectedCell.length === 1){
+                this.selectedObject = { ...newcell };
+            } else {
+                this.selectedObject = { };
+            }
         },
     },
 };

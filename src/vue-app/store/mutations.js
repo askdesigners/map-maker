@@ -3,7 +3,10 @@ export default {
         state.cellDimensions = setting;
     },
     SET_SELECTED_CELL(state, selectedCell) {
-        state.selectedCell = selectedCell;
+        state.selectedCell = [selectedCell];
+    },
+    ADD_SELECTED_CELL(state, selectedCell) {
+        state.selectedCell = [...state.selectedCell, selectedCell];
     },
     SET_MAP_ROWS(state, mapRows) {
         state.mapRows = mapRows;

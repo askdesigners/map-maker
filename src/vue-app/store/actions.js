@@ -6,15 +6,23 @@ function mapReady(arrayMap) {
 }
 
 function changedKey({ key, data }) {
-    console.log(key, data);
     store.dispatch("updateSelection", data);
 }
 
 const dataLayer = new DataLayer(changedKey, mapReady);
 
-const updateSelection = ({ commit }, key) => {
-    console.log("------>", key);
-    commit("SET_SELECTED_CELL", key);
+const updateSelection = ({ commit }, {cell, op}) => {
+    console.log('updating selction', cell, op);
+    switch (op) {
+        case "replace":
+            commit("SET_SELECTED_CELL", cell);
+            break;
+        case "add":
+            commit("ADD_SELECTED_CELL", cell);
+            break;
+        default:
+            break;
+    }
 };
 const updateBlocked = ({ commit }, { key, dir }) => {
     dataLayer.updateBlocked({ key, dir });
