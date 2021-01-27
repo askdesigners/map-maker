@@ -12,7 +12,6 @@ function changedKey({ key, data }) {
 const dataLayer = new DataLayer(changedKey, mapReady);
 
 const updateSelection = ({ commit }, {cell, op}) => {
-    console.log('updating selction', cell, op);
     switch (op) {
         case "replace":
             commit("SET_SELECTED_CELL", cell);
@@ -33,8 +32,8 @@ const setMap = ({ commit }, rows) => {
 const saveMap = ({ commit, state }) => {
     dataLayer.saveMap();
 };
-const saveCell = ({ commit, state }, { key, data }) => {
-    dataLayer.saveCell(key, data);
+const saveCell = ({ commit, state }, { keys, data }) => {
+    dataLayer.saveCell({keys, data});
 };
 
 const initMap = () => {

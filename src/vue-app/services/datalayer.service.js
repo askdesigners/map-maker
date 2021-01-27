@@ -24,9 +24,12 @@ export default class DatalayerService {
         ipcRenderer.send("updatemap", this.keyMap);
     }
 
-    saveCell(key, data) {
-        this.keyMap[key] = Object.assign(this.keyMap[key], data);
-        this.changedKeyHandler({ key, data: this.keyMap[key] });
+    saveCell({keys, data}) {
+        keys.forEach(key => {
+            this.keyMap[key] = Object.assign(this.keyMap[key], data);
+            console.log("updated", {key, data: this.keyMap[key]});
+            this.changedKeyHandler({ key, data: this.keyMap[key] });
+        });
         this.saveMap();
     }
 

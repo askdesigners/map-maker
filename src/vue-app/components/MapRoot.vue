@@ -119,7 +119,6 @@ export default {
     },
     methods: {
         selectCell({evt}, cell) {
-            console.log(evt);
             this.$store.dispatch("updateSelection", {cell, op: evt.altKey ? "add" : "replace"});
         },
         getRect(cell, row, col) {

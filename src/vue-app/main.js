@@ -4,7 +4,10 @@ import Vue from "vue";
 import VueKonva from 'vue-konva'
 import App from "@/App.vue";
 import store from "./store";
+import "prismjs";
+import "prismjs/themes/prism.css";
 import "./scss/global.scss";
+ 
 
 Vue.use(VueKonva)
 

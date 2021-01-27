@@ -11,7 +11,8 @@ export default class MapManager {
 
     getMap(event, dimensions) {
         let emptyMap = this.buildEmptyMap(dimensions);
-        event.sender.send("getmap-reply", this.formatForApp(emptyMap, jsonfile.readFileSync(path.join(__dirname, this.mapFilePath)).map));
+        const formattedMapData = this.formatForApp(emptyMap, jsonfile.readFileSync(path.join(__dirname, this.mapFilePath)).map);
+        event.sender.send("getmap-reply", formattedMapData);
     }
 
     updateMap(event, newMapData) {
@@ -35,7 +36,10 @@ export default class MapManager {
                     w: false,
                     e: false,
                     n: false,
-                    s: false
+                    s: false,
+                    onEnter: "",
+                    canEnter: "",
+                    onLeave: "",
                 };
             });
         });
@@ -54,7 +58,10 @@ export default class MapManager {
                 w: place.blockedTo.indexOf("w") > -1,
                 e: place.blockedTo.indexOf("e") > -1,
                 n: place.blockedTo.indexOf("n") > -1,
-                s: place.blockedTo.indexOf("s") > -1
+                s: place.blockedTo.indexOf("s") > -1,
+                onEnter: place.onEnter ? place.onEnter : m[key].onEnter,
+                canEnter: place.canEnter ? place.canEnter : m[key].canEnter,
+                onLeave: place.onLeave ? place.onLeave : m[key].onLeave,
             };
             return m;
         }, emptyMap);
@@ -64,16 +71,19 @@ export default class MapManager {
         let keys = Object.keys(newMapData);
         return {
             map: keys.reduce((acc, k) => {
-                let xy = k.split("-");
+                let [x,y] = k.split("-");
                 let blocks = [newMapData[k].w ? "w" : null, newMapData[k].e ? "e" : null, newMapData[k].n ? "n" : null, newMapData[k].s ? "s" : null].filter(e => e);
                 let tPlace = {
-                    x: xy[0],
-                    y: xy[1],
+                    x,
+                    y,
                     level: 0,
                     name: newMapData[k].name,
                     descriptiveName: newMapData[k].descriptiveName,
                     description: newMapData[k].description,
-                    blockedTo: blocks
+                    blockedTo: blocks,
+                    onEnter: newMapData[k].onEnter,
+                    canEnter: newMapData[k].canEnter,
+                    onLeave: newMapData[k].onLeave,
                 };
                 return acc.concat(tPlace);
             }, [])
